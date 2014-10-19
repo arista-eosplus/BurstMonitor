@@ -9,7 +9,7 @@ In order to install the Interface Burst Monitor, copy 'ibm' to /mnt/flash.
 
 Interface Burst Monitor can then be started using:
 
-   (bash:root)# **/mnt/flash/ibm [<options>] <interface number>&**
+<pre>   (bash:root)# **/mnt/flash/ibm [<options>] <interface number>&**</pre>
 
 and you can use 'nohup' utility in order to make this persistent over ssh:
 
