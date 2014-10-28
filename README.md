@@ -9,15 +9,15 @@ In order to install the Interface Burst Monitor, copy 'ibm' to /mnt/flash.
 
 Interface Burst Monitor can then be started using:
 
-<pre>   (bash:root)# <b>/mnt/flash/ibm [&lt;options&gt;] &lt;interface number&gt;&</b></pre>
+<pre>   (bash:root)# <b>python /mnt/flash/ibm [&lt;options&gt;] &lt;interface number&gt;&</b></pre>
 
 and you can use 'nohup' utility in order to make this persistent over ssh:
 
-<pre>   (bash:root)# <b>nohup /mnt/flash/ibm [&lt;options&gt;] &lt;interface number&gt; &</b></pre>
+<pre>   (bash:root)# <b>nohup python /mnt/flash/ibm [&lt;options&gt;] &lt;interface number&gt; &</b></pre>
 
 See: 
 
-<pre>   (bash:root)# <b>/mnt/flash/ibm --help</b></pre>
+<pre>   (bash:root)# <b>python /mnt/flash/ibm --help</b></pre>
 
 for details about the command-line options.
 
@@ -25,13 +25,13 @@ In order to run the Interface Burst Monitor as a daemon (persistent after reboot
 
 <pre>   <b>event-handler ibm
       trigger on-boot
-      action bash sudo /usr/bin/daemonize /mnt/flash/ibm [&lt;options&gt;] &lt;interface number&gt; &
+      action bash sudo /usr/bin/daemonize python /mnt/flash/ibm [&lt;options&gt;] &lt;interface number&gt; &
       asynchronous</b></pre>
 
 Interface Burst Monitor process name is 'ibm-&lt;interface number&gt;', so standard Linux tools can be used to stop and restart it with different options:
 
 <pre>   (bash:root)# <b>pkill ibm-1</b>
-   (bash:root)# <b>/mnt/flash/ibm [&lt;new-options&gt;] 1 &</b></pre>
+   (bash:root)# <b>python /mnt/flash/ibm [&lt;new-options&gt;] 1 &</b></pre>
 
 Note that in order to make sure the Interface Burst Monitor does not restart on reboot / starts with a different config on reboot, the startup-config has to be changed accordingly.
 
@@ -44,11 +44,11 @@ In order to uninstall Interface Burst Monitor, use:
 
 Log messages are generated whenever the TX/RX maximum bit rate exceeds certain thresholds (tolerances). These tolerance levels are expressed in terms of percentage of the link speed and are by default set at 80%, for both RX and TX.  In order to change the tolerance levels, use the *--rx-tolerance/--tx-tolerance* command line options:
 
-<pre>   (bash:root)# <b>/mnt/flash/ibm -r 60 -t 90 &lt;interface number&gt; &</b></pre>
+<pre>   (bash:root)# <b>python /mnt/flash/ibm -r 60 -t 90 &lt;interface number&gt; &</b></pre>
 
 In order to enable debugging output to stdout, use the '-d' command line option.
 
-<pre>   (bash:root)# <b>/mnt/flash/ibm -d ...</b></pre>
+<pre>   (bash:root)# <b>python /mnt/flash/ibm -d ...</b></pre>
 
 Note that the output can be quite verbose so it is recommended that this option is used with caution, and only for debugging purposes.
 
