@@ -54,8 +54,8 @@ Note that the output can be quite verbose so it is recommended that this option 
 
 ##Compatibility
 
-Version 1.1 has been developed and tested against 4.11.8. Please reach out to eosplus@arista.com if you want to run this against a different EOS release.
+Version 1.1 has been developed and tested against 4.11.8. It is not officially supported. This version will also operate on >= EOS versions 4.12.6, 4.13.3, or any 4.14 release but is untested. Please contact eosplus@arista.com if you would like an officially supported release of this software.
 
 ##Limitations
-The script works by polling the hardware counters ever ~1-3ms.
+The script works by polling the hardware counters ever ~1-3ms. It will consume up to a maximum of 50% of the CPU resources by default.
 
