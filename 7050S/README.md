@@ -70,9 +70,10 @@ This extension works by polling the interface counters via eAPI. The eAPI creden
 
 ##Compatibility
 
-Version 1.1 has been developed and tested against 4.11.8. It is not officially supported. This version will also operate on >= EOS versions 4.12.6, 4.13.3, or any 4.14 release but is untested. Please contact eosplus@arista.com if you would like an officially supported release of this software.
+Version 1.1 has been developed and tested against 4.13.7M. Please reach out to support@aristanetworks.com if you want to run this against a different EOS release.
 
 ##Limitations
+
 The script works by polling the hardware counters ever ~2s. This will lead to the CPU consumption of Strata to sometimes exceed 20%.
 
 The script only works for 10G interfaces on Arista 7050S series switches.
@@ -83,4 +84,3 @@ The script requires eAPI to be enabled.
        no protocol https
        protocol http
        no shutdown</pre>
-
