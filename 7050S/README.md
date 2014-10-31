@@ -70,7 +70,7 @@ This extension works by polling the interface counters via eAPI. The eAPI creden
 
 ##Compatibility
 
-Version 1.1 has been developed and tested against 4.13.7M. Please reach out to support@aristanetworks.com if you want to run this against a different EOS release.
+Version 1.1 has been developed and tested against 4.13.7M. Please contact eosplus@arista.com if you would like an officially supported release of this software.
 
 ##Limitations
 
