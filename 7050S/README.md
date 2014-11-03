@@ -56,7 +56,7 @@ Note that the output can be quite verbose so it is recommended that this option 
 
 This extension works by polling the interface counters via eAPI. The eAPI credentials and protocol can be configured using the following command line options:
 
-<pre>      # <b>ibm --help</b>
+<pre>      # <b>python /mnt/flash/ibm --help</b>
       ...
       Options:
         ...
