@@ -60,6 +60,9 @@ Version 1.1 has been developed and tested against 4.11.8. It is not officially s
 The script works by polling the hardware counters ever ~1-3ms. It will consume up to a maximum of 50% of the CPU resources by default.
 
 ##Example
-<pre>Oct 28 15:38:47 FRAES21 ibm-45: %INTERFACE-4-TX_BURST_DETECTED: TX burst (0.03Mb/1.829ms) detected on port 45</pre>
+<pre>#python /mnt/flash/ibm -r 60 -t 90 45    # Ethernet45 is a 1Gbps link</pre>
+<pre>Oct 28 15:39:00 FRAES21 ibm-45: %INTERFACE-4-TX_BURST_DETECTED: TX burst (0.02Mb/1.854ms) detected on port 45</pre>
 
-
+   - 0.02Mb/1.854ms is equivalent to 10.787Mb/s
+   - 1% of 1G/s link (1000Mb/s) is 10Mb/s
+   - the link speed has burst over the threshold (10.787Mb/s > 10Mb/s)
