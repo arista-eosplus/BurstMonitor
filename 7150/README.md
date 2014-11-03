@@ -59,3 +59,7 @@ Version 1.1 has been developed and tested against 4.11.8. It is not officially s
 ##Limitations
 The script works by polling the hardware counters ever ~1-3ms. It will consume up to a maximum of 50% of the CPU resources by default.
 
+##Example
+<pre>Oct 28 15:38:47 FRAES21 ibm-45: %INTERFACE-4-TX_BURST_DETECTED: TX burst (0.03Mb/1.829ms) detected on port 45</pre>
+
+
