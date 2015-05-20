@@ -248,7 +248,7 @@ Here are some tips for debugging IBM issues:
 (enable)# bash pgrep ibm
 11367
 ```
- - check whether **IBM data collector** is crashing and being restarted often by looking at syslog and the timestamps of */var/log/agents/ibm\**
+ - check whether **IBM data collector** is crashing and being restarted often by looking at syslog and the timestamps of */var/log/agents/ibm**
  - run the **IBM data collector** manually, in debug mode:
 ```
 (bash)$ sudo /usr/bin/python /persist/sys/ibm/ibm -d
