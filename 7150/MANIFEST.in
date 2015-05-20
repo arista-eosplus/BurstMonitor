@@ -1,5 +1,6 @@
 include CHANGELOG.md INSTALL.md README.md 
 include LICENSE VERSION
-include Makefile ibm.spec
+include Makefile ibm.spec 
+include ibm
 recursive-include conf *
 recursive-include simApi *
