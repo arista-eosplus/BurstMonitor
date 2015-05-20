@@ -2,11 +2,11 @@
 BurstMonitor
 ============
 
-The Interface Burst Monitor (IBM) observes the maximum bit rate of interfaces and records bursts of traffic on either the RX or TX side of the interface.
+The Interface Burst Monitor (IBM) observes the bit rate of interfaces and records bursts of traffic on either the RX or TX side of each interface.
 
 The solution is composed of two components:
  - **IBM data collector** - responsible for collecting the burst information to CSV files on the local disk
- - **IBM simAPI plugin** - is responsible for exposing the burst information via eAPI (https://github.com/arista-eosplus/simAPI/tree/ibm)
+ - **IBM simAPI plugin** - responsible for exposing the burst information via eAPI (see also https://github.com/arista-eosplus/simAPI/tree/ibm)
 
 ##Installation
 
@@ -68,7 +68,7 @@ daemon ibm
    exec /usr/bin/python /persist/sys/ibm/ibm
    no shutdown
 ```
-For **IBM simAPI plugin** to work, remeber to enable eAPI on the switch:
+The **IBM simAPI plugin** requires eAPI to be enabled on the switch:
 ```
 management api http-commands
    no shutdown
@@ -107,15 +107,19 @@ The data collector config file is */persist/sys/ibm/ibm.json*. Here is an exampl
    "log_entries" :  100
 }
 ```
-Any changes made to the configuration file will require a restart of the data collector daemon in order to take effect.
+Any changes made to the configuration file require a restart of the data collection daemon:
 ```
 (config)# daemon ibm
 (config-daemon-ibm)# shutdown
 (config-daemon-ibm)# no shutdown
+
+OR
+
+(bash)# sudo pkill ibm
 ```
 IBM will poll the hardware counters as fast as possible and will record the link utilization for each polling interval. A batch of polling intervals are grouped together for reporting purposes - this is controlled by the *batch_size* option from above. In the example from above, every 1000 consecutitive polling intervals, IBM will record the *maximum RX/TX burst* of traffic from all the polling intervals in the batch (in CSV format). 
 
-Note that the *maximum RX/TX burst* is computed with respect to the link speed and NOT only the number of Bytes which are received/transmitted during a polling interval. Hence, both the size (in Bytes) and length (in us) of a polling interval are considered in order to compute the maximum burst. 
+Note that the *maximum RX/TX burst* is computed with respect to the link speed and NOT the number of Bytes which are received/transmitted during a polling interval. Hence, both the size (in Bytes) and length (in us) of a polling interval are considered in order to compute the maximum burst. 
 
 Here is an example:
 ```
@@ -212,8 +216,8 @@ The **IBM simAPI plugin** allows for the following CLI commands to be served via
       - *batch_start* represented the timestamp (in us) corresponding to beginning of the first polling interval in the batch
       - *batch_duration* represented the total duration (in ms) of all the polling intervals in a batch
       - *batch_rx/tx* represents the total number of Bytes received/transmitted by the interface during the batch
-      - *rx/tx_burst* represents the size of the burst (in Bytes)
-      - *rx/tx_burst_perc* represents the size of the burst as a % of the maximum link speed
+      - *rx/tx_burst* represents the size of the maximum burst (in Bytes)
+      - *rx/tx_burst_perc* represents the size of the maximum burst as a % of the maximum link speed
       - *rx/tx_burst_start* represented the timestamp (in us) corresponding to the maximum burst in the batch
       - *rx/tx_burst_duration* represented the total duration (in ms) of the maximum burst in the batch
 ```
@@ -243,7 +247,7 @@ The **IBM simAPI plugin** allows for the following CLI commands to be served via
 
 Here are some tips for debugging IBM issues:
  - check that the extension is installed and properly configured as shown above
- - check that **IBM data collector** is running (the process name is *ibm*). If the collector is not running, check that the daemon is enabled in the config (*no shutdown*).
+ - check that **IBM data collector** is running (the process name is *ibm*). If the collector is not running, check that the daemon is enabled in the config (*no shutdown*):
 ```
 (enable)# bash pgrep ibm
 11367
@@ -257,7 +261,7 @@ Verifying the hardware model: DCS-7150S-52-CL
 Setting process name to ibm
 Loading intf-to-port mapping:...
 ```
- - in order to debug simAPI plugin issues, first try to see whether eAPI works as expected by running *show version* both locally and remotely
+ - in order to debug simAPI plugin issues, first try to see whether eAPI works as expected by running *show version* both locally and remotely:
 ```
 (bash)# python
 >>>import jsonrpclib
