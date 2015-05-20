@@ -1,0 +1,13 @@
+Metadata-Version: 1.0
+Name: ibm
+Version: 2.0.0
+Summary: Interface Burst Monitor
+Home-page: http://eos.arista.com
+Author: Andrei Dvornic, Arista EOS+
+Author-email: andrei@arista.com
+License: BSD-3
+Description: TODO
+        # TODO speed change requires restart
+        
+        "shut|no shut daemon" on upgrade
+Platform: UNKNOWN
