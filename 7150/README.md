@@ -10,7 +10,53 @@ The solution is composed of two components:
 
 ##Installation
 
-TODO
+ - if another extension with the same name is already installed, first remove that:
+```
+EOS# show extensions
+Name                                       Version/Release           Status extension
+------------------------------------------ ------------------------- ------ ----
+ibm-<version>.swix                         <version>/<release>       A, I      1
+...
+A: available | NA: not available | I: installed | NI: not installed | F: forced
+
+EOS# no extension ibm-<version>.swix
+EOS# show extensions
+show extensions
+Name                                       Version/Release           Status extension
+------------------------------------------ ------------------------- ------ ----
+simApi-<version>.rpm                       <version>/<release>       A, NI     1
+
+A: available | NA: not available | I: installed | NI: not installed | F: forced
+
+EOS# delete extension:ibm-<version>.swix
+EOS# show extensions
+No extensions are available
+
+EOS# copy installed-extensions boot-extensions
+Copy completed successfully.
+```
+ - copy the extension to the switch using the **copy** command:
+```
+EOS# copy https://github.com/arista-eosplus/BurstMonitor/raw/master/7150/ibm-<version>.swix extension:
+```
+ - install the extension:
+```
+EOS# extension ibm-<version>.swix
+```
+ - in order to make the extension persistent over reboot, use:
+```
+EOS# copy installed-extensions boot-extensions
+```
+If everything went well, **show extensions** should show:
+```
+EOS#show extensions 
+show extensions
+Name                                       Version/Release           Status extension
+------------------------------------------ ------------------------- ------ ----
+ibm-<version>.swix                         <version>/<release>        A, I     2
+
+A: available | NA: not available | I: installed | NI: not installed | F: forced
+```
 
 ##Configuration 
 
@@ -40,7 +86,7 @@ The data collector config file is */persist/sys/ibm/ibm.json*. Here is an exampl
    //   "interfaces" : [ "Ethernet1",                          
    //                    "Ethernet2" ],                        
    "interfaces" : [
-       "Et1",
+       "Ethernet1",
        "Et2",
    ],                                                          
 
@@ -64,8 +110,8 @@ The data collector config file is */persist/sys/ibm/ibm.json*. Here is an exampl
 Any changes made to the configuration file will require a restart of the data collector daemon in order to take effect.
 ```
 (config)# daemon ibm
-(config-daemon-ibm)# **shutdown**
-(config-daemon-ibm)# **no shutdown**
+(config-daemon-ibm)# shutdown
+(config-daemon-ibm)# no shutdown
 ```
 IBM will poll the hardware counters as fast as possible and will record the link utilization for each polling interval. A batch of polling intervals are grouped together for reporting purposes - this is controlled by the *batch_size* option from above. In the example from above, every 1000 consecutitive polling intervals, IBM will record the *maximum RX/TX burst* of traffic from all the polling intervals in the batch (in CSV format). 
 
@@ -128,7 +174,7 @@ The **IBM simAPI plugin** allows for the following CLI commands to be served via
 
 ['Ethernet1', 'Ethernet10', 'Ethernet11', 'Ethernet12', 'Ethernet2', 'Ethernet3', 'Ethernet4', 'Ethernet5', 'Ethernet6', 'Ethernet7', 'Ethernet8', 'Ethernet9']
 ```
- - **ibm Ethernet<no.> info** - returns the list of log files available for each interface
+ - **ibm Ethernet\<no.\> info** - returns the list of log files available for each interface
     - *start* represents the timestamp for start of the first (oldest) polling interval in the log file
     - *end* represents the timestamp for end of the last (newest) polling interval in the log file
     - *entries* represents the number of entries in the file
@@ -153,7 +199,7 @@ The **IBM simAPI plugin** allows for the following CLI commands to be served via
         'free': 0, 
         'path': '/tmp/ibm/Ethernet1/2'}}
 ```
-- **ibm Ethernet<no.> files <no.>[,<no.>]** - returns the entries in the log files
+- **ibm Ethernet\<no.\> files \<no.\>[,\<no.\>]** - returns the entries in the log files
    - CSV format 
 ```
 >>> client.runCmds(1, ['ibm Ethernet1 files 1,2'], 'csv')[0] OR
@@ -211,10 +257,19 @@ Verifying the hardware model: DCS-7150S-52-CL
 Setting process name to ibm
 Loading intf-to-port mapping:...
 ```
- - raise a GitHub issue, including:
+ - in order to debug simAPI plugin issues, first try to see whether eAPI works as expected by running *show version* both locally and remotely
+```
+(bash)# python
+>>>import jsonrpclib
+>>>client = jsonrpclib.Server('https://<username>:<password>@<hostname>/command-api')
+>>> client.runCmds(1, ['show version'])
+```
+ - if you still can't sort it out, raise a GitHub issue which includes:
+   - the results of the debugging steps from above
    - the output of *show tech-support*
    - the contents of */persist/sys/ibm* and */persist/sys/simAPI* on the switch
-TODO
+   - the contents of */var/log*
+   - the contents of */tmp/ibm*
 
 ##Compatibility
 
@@ -222,3 +277,12 @@ Version 1.0.0 has been developed and tested against EOS-4.15.0F. This version sh
 
 ##Limitations
 The **IBM data collector** works by polling the hardware counters as fast as possible. It will consume up to a maximum of 50% of the CPU resources.
+
+The following configuration changes require a restart of the data collector daemon in order ensure correct behaviour:
+ - any changes made to the speed configuration of interfaces being monitored by the IBM (e.g. agile ports) 
+ - any updates of the ibm extension
+```
+(config)# daemon ibm
+(config-daemon-ibm)# shutdown
+(config-daemon-ibm)# no shutdown
+```
