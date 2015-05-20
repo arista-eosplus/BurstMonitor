@@ -286,3 +286,29 @@ The following configuration changes require a restart of the data collector daem
 (config-daemon-ibm)# shutdown
 (config-daemon-ibm)# no shutdown
 ```
+
+##Extra
+####Creating a new SWIX file with a different IBM default configuration
+
+ - clone this repository
+```
+git clone https://github.com/arista-eosplus/BurstMonitor
+cd BurstMonitor/7150
+```
+ - update *conf/ibm.json*
+```
+vi conf/ibm.json
+```
+ - copy *rpmbuild/ibm-\<version\>.rpm* to an Arista switch / vEOS node
+```
+scp rpmbuild/ibm-<version>.rpm <Arista>:/mnt/flash
+```
+ - copy the simAPI RPM to the same switch / vEOS node (use the *ibm* branch in the simAPI repository for pre-configured default IBM plugin configuration)
+```
+Arista(bash)$ cd /mnt/flash
+Arista(bash)$ wget https://github.com/arista-eosplus/simAPI/raw/ibm/simApi-<version>.rpm
+```
+ - create updated SWIX file
+```
+Arista(bash)$ swix create /mnt/flash/ibm-<version>.swix /mnt/flash/ibm-<version>.rpm /mnt/flash/simApi-<version>.rpm
+```
