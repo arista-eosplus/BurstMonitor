@@ -36,6 +36,8 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /persist/sys/ibm/ibm.json
 %config /persist/sys/ibm/ibm
 
+%postun
+pkill ibm
 
 %changelog
 * Tue Oct 23 2014 Andrei Dvornic <andrei@arista.com> - %{version}-1
