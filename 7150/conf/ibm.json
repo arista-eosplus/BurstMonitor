@@ -4,8 +4,8 @@
    //   "interfaces" : [ "Ethernet1",       
    //                    "Ethernet2" ],
    "interfaces" : [ 
-       "Et1",
-       "Et2",
+       "Ethernet1",
+       "Et2"
    ],
 
    // Number of hardware polling intervals to report together
