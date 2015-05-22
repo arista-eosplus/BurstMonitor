@@ -71,6 +71,7 @@ daemon ibm
 The **IBM simAPI plugin** requires eAPI to be enabled on the switch:
 ```
 management api http-commands
+   protocol unix
    no shutdown
 ```
 In order to make the solution boot-persistant, run *copy runnning-config startup-config* once everything is set up.
