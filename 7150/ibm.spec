@@ -38,6 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun
 pkill ibm
+rm -rf /persist/sys/ibm
 
 %changelog
 * Tue Oct 23 2014 Andrei Dvornic <andrei@arista.com> - %{version}-1
