@@ -22,5 +22,9 @@
 
    // Number of entries to keep in each file
    // default : 100
-   "log_entries" :  100
+   "log_entries" :  100,
+
+   // Target poll duration for each interface (in ms)
+   // default: 30
+   "poll_duration" : 30
 }
