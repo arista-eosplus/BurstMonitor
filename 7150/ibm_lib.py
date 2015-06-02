@@ -31,7 +31,7 @@ import cjson     # pylint: disable=F0401
 import re
 
 DEFAULTS = {'interfaces' : [],
-            'batch_size' : 1000,
+            'batch_size' : 100,
             'log_dir' : '/tmp/ibm',
             'log_files' : 3,
             'log_entries' : 100,

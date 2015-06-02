@@ -9,8 +9,8 @@
    ],
 
    // Number of hardware polling intervals to report together
-   // default: 1000
-   "batch_size" :  1000,
+   // default: 100
+   "batch_size" :  100,
 
    // Where to store the log files for all interfaces
    // default: /tmp/ibm
