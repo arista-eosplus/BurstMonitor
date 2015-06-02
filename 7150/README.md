@@ -170,8 +170,8 @@ index,batch_rx(B),batch_tx(B),batch_start,batch_duration(ms),rx_burst(B),rx_burs
 The **IBM simAPI plugin** allows for the following CLI commands to be served via eAPI (the following examples will use Python, but same applies for any other programming language or the eAPI Explorer running on the switch):
 
 ```
->>>import jsonrpclib
->>>client = jsonrpclib.Server('https://<username>:<password>@<hostname>/command-api')
+>>> import jsonrpclib
+>>> client = jsonrpclib.Server('https://<username>:<password>@<hostname>/command-api')
 ```
  - **ibm ports** - returns the list of ports which are monitored for bursts (see */persist/sys/ibm/ibm.json*)
 ```
