@@ -34,7 +34,8 @@ DEFAULTS = {'interfaces' : [],
             'batch_size' : 1000,
             'log_dir' : '/tmp/ibm',
             'log_files' : 3,
-            'log_entries' : 100}
+            'log_entries' : 100,
+            'poll_duration' : 30}
 
 CONFIG_FILE = '/persist/sys/ibm/ibm.json'
 
