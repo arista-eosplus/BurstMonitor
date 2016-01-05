@@ -62,7 +62,7 @@ pkill burstmonitor
 rm -rf /persist/sys/burstmonitor
 
 %changelog
-* Tue Oct 23 2014 Andrei Dvornic <andrei@arista.com> - %{version}-1
-- Initial release
 * Tue Dec 15 2015 Philip DiLeo <phil@arista.com> - %{version}-1
 - Change name of package to burstmonitor.
+* Tue Oct 23 2014 Andrei Dvornic <andrei@arista.com> - %{version}-1
+- Initial release
