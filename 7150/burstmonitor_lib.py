@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python
 #
 # Copyright (c) 2015, Arista Networks, Inc.
 # All rights reserved.
@@ -14,7 +14,7 @@
 #  - Neither the name of Arista Networks nor the names of its
 # contributors may be used to endorse or promote products derived from
 # this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 # "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 # LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -26,18 +26,21 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+"""The burstmonitor_lib provides common functions to help the burstmonitor
+load configuration.
+"""
 
 import cjson     # pylint: disable=F0401
 import re
 
-DEFAULTS = {'interfaces' : [],
-            'batch_size' : 100,
-            'log_dir' : '/tmp/ibm',
-            'log_files' : 3,
-            'log_entries' : 100,
-            'poll_duration' : 30}
+DEFAULTS = {'interfaces': [],
+            'batch_size': 100,
+            'log_dir': '/tmp/burstmonitor',
+            'log_files': 3,
+            'log_entries': 100,
+            'poll_duration': 30}
 
-CONFIG_FILE = '/persist/sys/ibm/ibm.json'
+CONFIG_FILE = '/persist/sys/burstmonitor/burstmonitor.json'
 
 # Regular expression for comments
 COMMENT_RE = re.compile(
@@ -45,7 +48,9 @@ COMMENT_RE = re.compile(
     re.DOTALL | re.MULTILINE
 )
 
+
 def load_config(debug=False):
+    """Load the burstmonitor configuration file"""
     config = {}
     with open(CONFIG_FILE) as config:
         content = config.read()

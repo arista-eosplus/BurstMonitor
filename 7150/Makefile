@@ -1,7 +1,7 @@
 #!/usr/bin/make
 # WARN: gmake syntax
 ########################################################
-# Makefile for ibm extension
+# Makefile for burstmonitor extension
 #
 # useful targets:
 #   make clean ----- cleans distutils
@@ -11,7 +11,7 @@
 ########################################################
 # variable section
 
-NAME = "ibm"
+NAME = "burstmonitor"
 
 PYTHON=python
 SITELIB = $(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")
@@ -21,7 +21,7 @@ VERSION := $(shell cat VERSION)
 
 # RPM build parameters
 RPMSPECDIR = .
-RPMSPEC = $(RPMSPECDIR)/ibm.spec
+RPMSPEC = $(RPMSPECDIR)/burstmonitor.spec
 
 ########################################################
 
@@ -46,9 +46,9 @@ clean:
 	@echo "---------------------------------------------"
 	find . -type f -regex ".*\.py[co]$$" -delete
 	@echo "---------------------------------------------"
-	@echo "Removing ibm.egg-info"
+	@echo "Removing burstmonitor.egg-info"
 	@echo "---------------------------------------------"
-	rm -rf ibm.egg-info
+	rm -rf burstmonitor.egg-info
 
 sdist: clean
 	$(PYTHON) setup.py sdist
@@ -71,6 +71,6 @@ rpm: rpmcommon
 	@rm -f rpmbuild/$(NAME).spec
 	@rm -f rpmbuild/*.src.rpm
 	@echo "---------------------------------------------"
-	@echo "ibm RPM is built:"
+	@echo "burstmonitor RPM is built:"
 	@echo "    rpmbuild/$(NAME)-$(VERSION).rpm"
 	@echo "---------------------------------------------"

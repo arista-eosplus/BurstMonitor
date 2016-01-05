@@ -1,9 +1,9 @@
 {
    // Set of interfaces to monitor.
    // e.g.
-   //   "interfaces" : [ "Ethernet1",       
+   //   "interfaces" : [ "Ethernet1",
    //                    "Ethernet2" ],
-   "interfaces" : [ 
+   "interfaces" : [
        "Ethernet1",
        "Et2"
    ],
@@ -13,8 +13,8 @@
    "batch_size" :  100,
 
    // Where to store the log files for all interfaces
-   // default: /tmp/ibm
-   "log_dir" : "/tmp/ibm",
+   // default: /tmp/burstmonitor
+   "log_dir" : "/tmp/burstmonitor",
 
    // Number of log files to keep in memory for each interface
    // default : 3
@@ -26,5 +26,6 @@
 
    // Target poll duration for each interface (in ms)
    // default: 30
+   // min: 20
    "poll_duration" : 30
 }

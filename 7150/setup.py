@@ -36,17 +36,18 @@ INSTALL_REQUIREMENTS = [
     ]
 
 setup(
-      name='ibm',
+      name='burstmonitor',
       version=open('VERSION').read().split()[0],
       description='Interface Burst Monitor',
       long_description=open('README.md').read(),
-      author='Andrei Dvornic, Arista EOS+',
-      author_email='andrei@arista.com',
+      author='EOS+, Arista Networks',
+      author_email='eosplus-dev@arista.com',
       license='BSD-3',
       url='http://eos.arista.com',
-      py_modules=['ibm_lib'],
+      py_modules=['burstmonitor_lib'],
       install_requires=INSTALL_REQUIREMENTS,
       data_files=[
-          ('/persist/sys/ibm', ['ibm', 'conf/ibm.json']),
+          ('/persist/sys/burstmonitor',
+           ['burstmonitor', 'conf/burstmonitor.json']),
           ],
       )
