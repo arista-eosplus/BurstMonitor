@@ -18,6 +18,7 @@ SITELIB = $(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib; 
 
 # VERSION file provides one place to update the software version
 VERSION := $(shell cat VERSION)
+RELEASE := 1.rc2
 
 # RPM build parameters
 RPMSPECDIR = .
@@ -56,7 +57,8 @@ sdist: clean
 rpmcommon: sdist
 	@mkdir -p rpmbuild
 	@cp dist/*.gz rpmbuild/
-	@sed -e 's#^Version:.*#Version: $(VERSION)#' $(RPMSPEC) >rpmbuild/$(NAME).spec
+	@sed -e 's#^Version:.*#Version: $(VERSION)#' \
+	     -e 's#^Release:.*#Release: $(RPMRELEASE)#' $(RPMSPEC) > rpmbuild/$(NAME).spec
 
 rpm: rpmcommon
 	@rpmbuild --define "_topdir %(pwd)/rpmbuild" \
@@ -65,7 +67,7 @@ rpm: rpmcommon
 	--define "_srcrpmdir %{_topdir}" \
 	--define "_specdir $(RPMSPECDIR)" \
 	--define "_sourcedir %{_topdir}" \
-	--define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" \
+	--define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.rpm" \
 	--define "__python /usr/bin/python" \
 	-ba rpmbuild/$(NAME).spec
 	@rm -f rpmbuild/$(NAME).spec
