@@ -18,7 +18,7 @@ SITELIB = $(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib; 
 
 # VERSION file provides one place to update the software version
 VERSION := $(shell cat VERSION)
-RPMRELEASE := 1.rc2
+RPMRELEASE := 2
 
 # RPM build parameters
 RPMSPECDIR = .
@@ -74,5 +74,5 @@ rpm: rpmcommon
 	@rm -f rpmbuild/*.src.rpm
 	@echo "---------------------------------------------"
 	@echo "burstmonitor RPM is built:"
-	@echo "    rpmbuild/$(NAME)-$(VERSION).rpm"
+	@echo "    rpmbuild/$(NAME)-$(VERSION).$(RPMRELEASE).rpm"
 	@echo "---------------------------------------------"
