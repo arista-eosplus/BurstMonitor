@@ -25,7 +25,6 @@
    "log_entries" :  100,
 
    // Target poll duration for each interface (in ms)
-   // default: 30
-   // min: 20
-   "poll_duration" : 30
+   // default: 50
+   "poll_duration" : 50
 }
