@@ -1,4 +1,32 @@
 {
+
+  // Supports SNMP v2c and v3
+  // If authPriv is not configured, the auth passphrase will be used.
+  // auth will default to SHA if not set
+  // priv will default to AES if not set
+  //
+  // Valid Options for v3
+  // noAuthNoPriv|authNoPriv|authPriv
+  // secLevel=
+  // authProtocol=MD5|SHA
+  // authPassword=passphrase
+  // privProtocol=DES|AES
+  // privPassword=passphrase
+  "snmptrap" : {
+    "enabled": "False",
+    "threshold": 90,
+    "snmpServer": "localhost",
+    "version": "2c",
+    "community": "public",
+    "secName": "none",
+    "secLevel": "none",
+    "authProtocol": "MD5",
+    "authPassword": "mysecret",
+    "privProtocol": "DES",
+    "privPassword": "mysecret"
+  },
+
+
    // Set of interfaces to monitor.
    // e.g.
    //   "interfaces" : [ "Ethernet1",

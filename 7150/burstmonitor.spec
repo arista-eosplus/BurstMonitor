@@ -34,7 +34,7 @@ rm -rf $RPM_BUILD_ROOT
 FastCli -p 15 -c "configure
 daemon %{name}
 exec /usr/bin/python /persist/sys/burstmonitor/burstmonitor
-shutdown
+no shutdown
 end"
 
 %triggerun -- Cli

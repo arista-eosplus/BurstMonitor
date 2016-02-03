@@ -30,15 +30,18 @@
 load configuration.
 """
 
+from subprocess import call
 import cjson     # pylint: disable=F0401
 import re
+import socket
 
-DEFAULTS = {'interfaces': [],
+DEFAULTS = {'snmptrap': {'enabled': 'false'},
+            'interfaces': [],
             'batch_size': 100,
             'log_dir': '/tmp/burstmonitor',
             'log_files': 3,
             'log_entries': 100,
-            'poll_duration': 30}
+            'poll_duration': 50}
 
 CONFIG_FILE = '/persist/sys/burstmonitor/burstmonitor.json'
 
@@ -47,6 +50,11 @@ COMMENT_RE = re.compile(
     r'(^)?[^\S\n]*/(?:\*(.*?)\*/[^\S\n]*|/[^\n]*)($)?',
     re.DOTALL | re.MULTILINE
 )
+
+
+def get_hostname():
+    """Retrieves the linux hostname"""
+    return socket.gethostname()
 
 
 def load_config(debug=False):
@@ -75,3 +83,66 @@ def load_config(debug=False):
         print 'Loading config: %s' % config
 
     return config
+
+
+def send_trap(config, intf_data, uptime=''):
+    """This method takes the configuration data found in burstmonitor.json,
+    builds a valid snmptrap command and then sends it to the server.
+    """
+    host = get_hostname()
+    intf = intf_data['name']
+    trap_args = ['snmptrap']
+    trap_args.append('-v')
+    version = trap_args.append(config.get('version', '2c'))
+    trap_args.append(version)
+
+    if version == '2c':
+        trap_args.append('-c')
+        trap_args.append(config.get('community', 'public'))
+
+    elif version == '3':
+        # Send v3 snmp-inform rathern than a trap
+        trap_args.append('-Ci')
+
+        trap_args.append('-l')
+        trap_args.append(config['seclevel'])
+        trap_args.append('-u')
+        trap_args.append(config['secname'])
+
+        if config['seclevel'] in ['authNoPriv', 'authPriv']:
+            trap_args.append('-a')
+            trap_args.append(config['authprotocol'])
+            trap_args.append('-A')
+            trap_args.append(config['authpassword'])
+
+        if config['seclevel'] == 'authPriv':
+            trap_args.append('-x')
+            trap_args.append(config['privprotocol'])
+            trap_args.append('-X')
+            trap_args.append(config['privpassword'])
+
+    trap_args.append(config['snmpServer'])
+
+    # .iso.org.dod.internet.private. .arista
+    # enterprises.30065
+    enterprise_oid = '.1.3.6.1.4.1.30065'
+    # enterpriseSpecific = 6
+    generic_trapnum = '6'
+    trap_oid = '.'.join([enterprise_oid, generic_trapnum])
+
+    trap_args.append(str(uptime))
+    trap_args.append(enterprise_oid)
+    trap_args.append(trap_oid)
+    trap_args.append('s')
+
+    for direction in ['tx', 'rx']:
+        base_trap = trap_args
+        perc = intf_data['%s_burst_perc' % direction]
+        if perc >= config['threshold']:
+            duration = intf_data['%s_burst_duration' % direction]
+            message = ('%s, interface %s(%s): %s percent burst of traffic '
+                       'observed for %sms' %
+                       (host, intf, direction, perc, duration))
+
+            base_trap.append(message)
+            call(base_trap)
