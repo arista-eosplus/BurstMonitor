@@ -26,7 +26,7 @@ plugin](https://github.com/arista-eosplus/simAPI/tree/ibm).
 You can also process these records and send the information to an OpenTSDB
 server or create a syslog or snmp alert if certain thresholds are passed.
 For help with those or any other solutions, contact the
-[EOS+ Consulting Services](eosplus-dev@arista.com) team.
+EOS+ Consulting Services team at eosplus-dev@arista.com. 
 
 
 ##Installation
