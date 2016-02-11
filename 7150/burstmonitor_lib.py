@@ -90,10 +90,10 @@ def send_trap(config, intf_data, uptime=''):
     builds a valid snmptrap command and then sends it to the server.
     """
     host = get_hostname()
-    intf = intf_data['name']
+    intf = intf_data.name
     trap_args = ['snmptrap']
     trap_args.append('-v')
-    version = trap_args.append(config.get('version', '2c'))
+    version = config.get('version', '2c')
     trap_args.append(version)
 
     if version == '2c':
@@ -137,12 +137,12 @@ def send_trap(config, intf_data, uptime=''):
 
     for direction in ['tx', 'rx']:
         base_trap = trap_args
-        perc = intf_data['%s_burst_perc' % direction]
+        perc = getattr(intf_data, '%s_burst_perc' % direction)
         if perc >= config['threshold']:
-            duration = intf_data['%s_burst_duration' % direction]
-            message = ('%s, interface %s(%s): %s percent burst of traffic '
+            duration = getattr(intf_data, '%s_burst_duration' % direction)
+            message = ('%s:%s:%s %s percent burst of traffic '
                        'observed for %sms' %
-                       (host, intf, direction, perc, duration))
+                       (host, intf, direction, int(perc), duration))
 
             base_trap.append(message)
             call(base_trap)
