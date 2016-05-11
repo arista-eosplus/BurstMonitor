@@ -1,3 +1,6 @@
+# 3.1.2 (May 11 2016)
+* Fix port mapping. This resolves the issue where burstmonitor crashes when it tries to gather hardware counters.
+
 # 3.1.1 (Feb 10 2016)
 * Fix snmptrap record generation
 
