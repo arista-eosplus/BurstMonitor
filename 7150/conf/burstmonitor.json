@@ -23,7 +23,8 @@
     "authProtocol": "MD5",
     "authPassword": "mysecret",
     "privProtocol": "DES",
-    "privPassword": "mysecret"
+    "privPassword": "mysecret",
+    "vrf": "default"
   },
 
 
