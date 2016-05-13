@@ -143,7 +143,8 @@ def send_trap(config, intf_data, uptime=''):
     trap_args.append('s')
 
     for direction in ['tx', 'rx']:
-        base_trap = trap_args
+        base_trap = list()
+        base_trap.extend(trap_args)
         perc = getattr(intf_data, '%s_burst_perc' % direction)
         if perc >= config['threshold']:
             duration = getattr(intf_data, '%s_burst_duration' % direction)
@@ -152,4 +153,5 @@ def send_trap(config, intf_data, uptime=''):
                        (host, intf, direction, int(perc), duration))
 
             base_trap.append(message)
+            print 'Sending trap', ' '.join(base_trap)
             call(base_trap)

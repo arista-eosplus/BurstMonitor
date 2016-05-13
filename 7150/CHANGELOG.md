@@ -1,3 +1,6 @@
+# 3.2.1 (May 13 2016)
+* Update lib to print the snmptrap sent
+
 # 3.2.0 (May 12 2016)
 * Add VRF support. Check burstmonitor.json for the vrf option.
 
