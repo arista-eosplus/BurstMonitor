@@ -91,7 +91,14 @@ def send_trap(config, intf_data, uptime=''):
     """
     host = get_hostname()
     intf = intf_data.name
-    trap_args = ['snmptrap']
+
+    trap_args = []
+    vrf_name = config.get('vrf', 'default')
+    if vrf_name and vrf_name != 'default':
+        trap_args.extend(['ip', 'netns', 'exec'])
+        trap_args.append('ns-%s' % vrf_name)
+
+    trap_args.append('snmptrap')
     trap_args.append('-v')
     version = config.get('version', '2c')
     trap_args.append(version)
