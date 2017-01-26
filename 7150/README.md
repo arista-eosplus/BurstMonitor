@@ -2,31 +2,53 @@
 BurstMonitor
 ============
 
+##Important
+The BurstMonitor application is only supported on EOS versions:
+
+* 4.15.7M+
+* 4.16.7M+
+* 4.17.3F+
+
+If you run a release prior to these, you will be exposed to a bug which can
+cause the forwarding agent on the switch to restart.
+
 ##Introduction
 
 The Burst Monitor observes the bit rate of interfaces and records bursts of
-traffic on either the RX or TX side of each interface. It will records these
+traffic on either the RX or TX side of each interface. It will record these
 bursts and provide the number of bytes that composed the burst along with the
 percent utilization of the link during that burst. It monitors the
 specified interfaces every N milliseconds (defined in your configuration).
 As the number of interfaces monitored increases as well as the polling interval
 decreases, the overall CPU usage will increase. There is built-in limiter that
 will prevent this process from consuming more than 50% of the system CPU time.
-Finally, records will be written in CSV format to a directory in /tmp which
-record the time and characteristics of any captured bursts.
+Finally, records will be written in CSV format to a directory in /tmp/burstmonitor
+which record the time and characteristics of any captured bursts. You can also
+enable the BurstMonitor to send SNMP traps if the link utilization passes
+a user-defined threshold.
 
 ###What to do with the data?
 
 To make use of this valuable utilization data, the records must be processed
 to create alerts or send the data to a centralized database. An existing
 eAPI extension exists called simAPI. If the idea of pulling these records
-from each switch over eAPI is attractive, check out the [simAPI
-plugin](https://github.com/arista-eosplus/simAPI/tree/ibm).
+from each switch over eAPI is attractive, you can install the `simAPi-burstmonitor.rpm`.
+This will allow you to run commands over JSONRP, eg:
+```
+import jsonrpclib
 
-You can also process these records and send the information to an OpenTSDB
-server or create a syslog or snmp alert if certain thresholds are passed.
-For help with those or any other solutions, contact the
-EOS+ Consulting Services team at eosplus-dev@arista.com. 
+client = jsonrpclib.Server('http://admin:admin@192.168.0.10/sim-api')
+
+print(client.runCmds(1, ['ibm ports']))
+print(client.runCmds(1, ['ibm Ethernet1 info']))
+```
+
+This would yield:
+```
+['Ethernet1', 'Ethernet2']]
+
+[{'name': '1', 'entries': 20, 'path': '/tmp/burstmonitor/Ethernet1/1', 'start_ms': 1485474918410.0, 'end_ms': 1485475019410.0, 'free': 80}, {'name': '2', 'entries': 100, 'path': '/tmp/burstmonitor/Ethernet1/2', 'start_ms': 1485474413410.0, 'end_ms': 1485474918410.0, 'free': 0}, {'name': '3', 'entries': 100, 'path': '/tmp/burstmonitor/Ethernet1/3', 'start_ms': 1485473908440.0, 'end_ms': 1485474413410.0, 'free': 0}]
+```
 
 
 ##Installation
@@ -52,11 +74,8 @@ EOS# copy installed-extensions boot-extensions
 Copy completed successfully.
 ```
 
-Download or clone this Github repo and run ``make rpm`` on a similar platform
-as your Arista EOS device
-```
-admin$ make rpm
-```
+Download the burstmonitor rpm to a local machine, one that can be used to copy
+the file to the destination switch.
 
 Copy the extension to the switch using the **copy** command:
 ```
@@ -89,14 +108,14 @@ A: available | NA: not available | I: installed | NI: not installed | F: forced
 ####Switch configuration
 
 The burstmonitor RPM installation will have added daemon config to your
-running-config, but it's still in shutdown mode.
+running-config, and it will be running.
 ```
 daemon burstmonitor
    exec /usr/bin/python /persist/sys/burstmonitor/burstmonitor
-   shutdown
+   no shutdown
 ```
 
-Before starting the **burstmonitor data collector**,
+To change the configuration of the **burstmonitor data collector**,
 follow the steps below to modify your ``burstmonitor.json`` config file:
 
 
@@ -234,8 +253,8 @@ Loading intf-to-port mapping:...
 
 ##Compatibility
 
-Version 1.4.0 has been developed and tested against EOS-4.15.0F. This version
-should also work on EOS versions > EOS-4.15.5F, but is not tested.
+Version 3.3.0 has been developed and tested against EOS-4.15.7F and EOS-4.17.3F. This version
+should also work on EOS versions > EOS-4.15.7F, but is not tested.
 Please contact eosplus@arista.com if you would like an officially supported
 release of this software.
 
