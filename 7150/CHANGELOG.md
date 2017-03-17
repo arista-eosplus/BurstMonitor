@@ -1,3 +1,6 @@
+# 3.3.1 (Mar 17 2017)
+* Add more checks to ensure FocalPointv2 is running
+
 # 3.3.0 (Jan 27 2017)
 * Fix issue where BM will restart if FocalPointv2 agent isn't started
 * Add support for 25, 50, 100G interface speeds
