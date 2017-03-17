@@ -1,3 +1,10 @@
+# 3.3.0 (Jan 27 2017)
+* Fix issue where BM will restart if FocalPointv2 agent isn't started
+* Add support for 25, 50, 100G interface speeds
+* Fix issue where the timestamp on the record was inaccurate
+* Adds startup delay of four minutes. This startup delay is only enforced when the
+system uptime is less than four minutes.
+
 # 3.2.1 (May 13 2016)
 * Update lib to print the snmptrap sent
 
