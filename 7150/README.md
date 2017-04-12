@@ -2,17 +2,18 @@
 BurstMonitor
 ============
 
-##Important
+## Important
 The BurstMonitor application is only supported on EOS versions:
 
 * 4.15.7M+
 * 4.16.7M+
 * 4.17.3F+
+* 4.18.1F+
 
 If you run a release prior to these, you will be exposed to a bug which can
 cause the forwarding agent on the switch to restart.
 
-##Introduction
+## Introduction
 
 The Burst Monitor observes the bit rate of interfaces and records bursts of
 traffic on either the RX or TX side of each interface. It will record these
@@ -27,7 +28,7 @@ which record the time and characteristics of any captured bursts. You can also
 enable the BurstMonitor to send SNMP traps if the link utilization passes
 a user-defined threshold.
 
-###What to do with the data?
+### What to do with the data?
 
 To make use of this valuable utilization data, the records must be processed
 to create alerts or send the data to a centralized database. An existing
@@ -51,7 +52,7 @@ This would yield:
 ```
 
 
-##Installation
+## Installation
 
  If another extension with the same name is already installed, first remove that:
 
@@ -103,9 +104,9 @@ burstmonitor-<version>.rpm                 <version>/<release>        A, I     1
 A: available | NA: not available | I: installed | NI: not installed | F: forced
 ```
 
-##Configuration
+## Configuration
 
-####Switch configuration
+#### Switch configuration
 
 The burstmonitor RPM installation will have added daemon config to your
 running-config, and it will be running.
@@ -119,7 +120,7 @@ To change the configuration of the **burstmonitor data collector**,
 follow the steps below to modify your ``burstmonitor.json`` config file:
 
 
-####BurstMonitor data collector
+#### BurstMonitor data collector
 
 The data collector config file is ``/persist/sys/burstmonitor/burstmonitor.json``.
 Here is an example:
@@ -212,9 +213,9 @@ To make the running-config persistent use:
 (config)# copy running-config startup-config
 ```
 
-##Output
+## Output
 
-####BurstMonitor data collector
+#### BurstMonitor data collector
 
 The BurstMonitor CSV log files are stored under */tmp/burstmonitor*. Note that
 the log files are cleared whenever the *burstmonitor data collector* is
@@ -230,7 +231,7 @@ index,batch_rx_bytes,batch_tx_bytes,batch_start_ms,batch_duration_ms,burst_rx_by
 4,2650143360,0,1.43327792792e+12,3028.694,27566848,73.156,2848.683,30.146,0,0.000,0.0,29.512
 ```
 
-##Debugging
+## Debugging
 
 Here are some tips for debugging BurstMonitor issues:
  - check that the extension is installed and properly configured as shown above
@@ -251,14 +252,14 @@ Setting process name to burstmonitor
 Loading intf-to-port mapping:...
 ```
 
-##Compatibility
+## Compatibility
 
 Version 3.3.0 has been developed and tested against EOS-4.15.7F and EOS-4.17.3F. This version
 should also work on EOS versions > EOS-4.15.7F, but is not tested.
 Please contact eosplus@arista.com if you would like an officially supported
 release of this software.
 
-##Limitations
+## Limitations
 The **BurstMonitor data collector** works by polling the hardware counters as
 fast as possible. It will consume up to a maximum of 50% of the CPU resources.
 
