@@ -57,11 +57,39 @@ fi
 %config(noreplace) /persist/sys/burstmonitor/burstmonitor.json
 %config /persist/sys/burstmonitor/burstmonitor
 
+%pre
+# pre install of new package
+# Not executed during an uninstallation
+# $1 == 1 - install
+# $1 >= 2 - upgrade
+exit 0
+
+%post
+# post install of new package.
+# Not executed during an uninstallation
+# $1 == 1 - install
+# $1 >= 2 - upgrade
+exit 0
+
+%preun
+# preun of old package
+# $1 == 0 - uninstall
+# $1 == 1 - upgrade
+exit 0
+
 %postun
+# postun of old package
+# $1 == 0 - uninstall
+# $1 == 1 - upgrade
+if [ $1 -eq 0 ]; then
+    rm -rf /persist/sys/burstmonitor
+fi
 pkill burstmonitor
-rm -rf /persist/sys/burstmonitor
+exit 0
 
 %changelog
+* Thu Jun 27 2018 Cheyne Womble <cwomble@arista.com> - %{version}-1
+- Don't force remove burstmonitor and configs during upgrade.
 * Tue Dec 15 2015 Philip DiLeo <phil@arista.com> - %{version}-1
 - Change name of package to burstmonitor.
 * Tue Oct 23 2014 Andrei Dvornic <andrei@arista.com> - %{version}-1
