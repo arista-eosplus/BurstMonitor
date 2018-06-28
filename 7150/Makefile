@@ -18,7 +18,7 @@ SITELIB = $(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib; 
 
 # VERSION file provides one place to update the software version
 VERSION := $(shell cat VERSION)
-RPMRELEASE := 1
+RPMRELEASE := 2
 
 # RPM build parameters
 RPMSPECDIR = .
