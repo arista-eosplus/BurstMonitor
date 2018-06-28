@@ -74,5 +74,5 @@ rpm: rpmcommon
 	@rm -f rpmbuild/*.src.rpm
 	@echo "---------------------------------------------"
 	@echo "burstmonitor RPM is built:"
-	@echo "    rpmbuild/$(NAME)-$(VERSION).$(RPMRELEASE).rpm"
+	@echo "    rpmbuild/$(NAME)-$(VERSION)-$(RPMRELEASE).rpm"
 	@echo "---------------------------------------------"
