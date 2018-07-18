@@ -31,26 +31,36 @@ a user-defined threshold.
 ### What to do with the data?
 
 To make use of this valuable utilization data, the records must be processed
-to create alerts or send the data to a centralized database. An existing
-eAPI extension exists called simAPI. If the idea of pulling these records
-from each switch over eAPI is attractive, you can install the `simAPi-burstmonitor.rpm`.
-This will allow you to run commands over JSONRP, eg:
+to create alerts or send the data to a centralized database. An easy method to
+accomplish this is by using aliasing and script to return what you need from
+the respective interface log location `/tmp/burstmonitor`. The internals of the
+script `burstmon-sample.py` is left for the user.
+
+Alias Example
 ```
-import jsonrpclib
+#show alias
+burstmon-stat        bash timeout 10 sudo /mnt/flash/alias/burstmon-sample.py
+DCS-7050T#burstmon-stat
+```
+Note: When running a bash command over eAPI you need to configure a timeout parameter.
 
-client = jsonrpclib.Server('http://admin:admin@192.168.0.10/sim-api')
 
-print(client.runCmds(1, ['ibm ports']))
-print(client.runCmds(1, ['ibm Ethernet1 info']))
+Sample External Script
+```
+#!/usr/bin/env python
+
+from jsonrpclib import Server
+
+client = Server("http://admin:admin@192.168.1.100/command-api")
+
+response = client.runCmds(version = 1, cmds = ["burstmon-sample Ethernet1 info"], expandAliases=True, format='text')
+print response
 ```
 
-This would yield:
+This might yield:
 ```
-['Ethernet1', 'Ethernet2']]
-
 [{'name': '1', 'entries': 20, 'path': '/tmp/burstmonitor/Ethernet1/1', 'start_ms': 1485474918410.0, 'end_ms': 1485475019410.0, 'free': 80}, {'name': '2', 'entries': 100, 'path': '/tmp/burstmonitor/Ethernet1/2', 'start_ms': 1485474413410.0, 'end_ms': 1485474918410.0, 'free': 0}, {'name': '3', 'entries': 100, 'path': '/tmp/burstmonitor/Ethernet1/3', 'start_ms': 1485473908440.0, 'end_ms': 1485474413410.0, 'free': 0}]
 ```
-
 
 ## Installation
 
@@ -127,34 +137,34 @@ Here is an example:
 
 ```
 {
-   // Set of interfaces to monitor.                            
-   // e.g.                                                     
-   //   "interfaces" : [ "Ethernet1",                          
-   //                    "Ethernet2" ],                        
+   // Set of interfaces to monitor.
+   // e.g.
+   //   "interfaces" : [ "Ethernet1",
+   //                    "Ethernet2" ],
    "interfaces" : [
        "Ethernet1",
        "Et2",
-   ],                                                          
+   ],
 
-   // Number of hardware polling intervals to report together  
-   // default: 100                                            
+   // Number of hardware polling intervals to report together
+   // default: 100
    "batch_size" :  100,
 
-   // Where to store the log files for all interfaces          
-   // default: /tmp/burstmonitor                                        
+   // Where to store the log files for all interfaces
+   // default: /tmp/burstmonitor
    "log_dir" : "/tmp/burstmonitor",
 
    // Number of log files to keep in memory for each interface
-   // default : 3                                              
+   // default : 3
    "log_files" : 3,
 
-   // Number of entries to keep in each file                   
-   // default : 100                                            
+   // Number of entries to keep in each file
+   // default : 100
    "log_entries" :  100
 
    // Target poll duration for each interface (in ms)
-   // default: 30                                    
-   "poll_duration" : 30                              
+   // default: 30
+   "poll_duration" : 30
 }
 ```
 Burstmonitor will poll the hardware counters as fast as the configured by

@@ -3,4 +3,3 @@ include LICENSE VERSION
 include Makefile burstmonitor.spec
 include burstmonitor
 recursive-include conf *
-recursive-include simApi *
