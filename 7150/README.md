@@ -42,7 +42,7 @@ Alias Example
 burstmon-stat        bash timeout 10 sudo /mnt/flash/alias/burstmon-sample.py
 DCS-7050T#burstmon-stat
 ```
-Note: When running a bash command over eAPI you need to configure a timeout parameter.
+*__Note:__ When running a bash command over eAPI you need to configure a timeout parameter.*
 
 
 Sample External Script
@@ -54,8 +54,11 @@ from jsonrpclib import Server
 client = Server("http://admin:admin@192.168.1.100/command-api")
 
 response = client.runCmds(version = 1, cmds = ["burstmon-sample Ethernet1 info"], expandAliases=True, format='text')
-print response
+output = json.loads( response[ 'result' ][ 0 ][ 'messages' ][ 0 ] )
+print output
 ```
+*__Note:__ Only 'text' format is supported. However you can work around this using json.loads().*
+
 
 This might yield:
 ```
