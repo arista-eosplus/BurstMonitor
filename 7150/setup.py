@@ -32,7 +32,6 @@ from distutils.core import setup
 
 INSTALL_REQUIREMENTS = [
     'cjson',
-    'simApi'
     ]
 
 setup(
