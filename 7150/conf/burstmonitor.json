@@ -13,7 +13,7 @@
   // privProtocol=DES|AES
   // privPassword=passphrase
   "snmptrap" : {
-    "enabled": "False",
+    "enabled": false,
     "threshold": 90,
     "snmpServer": "localhost",
     "version": "2c",
