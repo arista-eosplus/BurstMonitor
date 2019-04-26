@@ -13,6 +13,8 @@ The BurstMonitor application is only supported on EOS versions:
 If you run a release prior to these, you will be exposed to a bug which can
 cause the forwarding agent on the switch to restart.
 
+__**Please contact eosplus-dev@arista.com if you would like an officially supported release of this software and determine how best to provide this to your customer so that it will be a TAC supported product.**__
+
 ## Introduction
 
 The Burst Monitor observes the bit rate of interfaces and records bursts of
