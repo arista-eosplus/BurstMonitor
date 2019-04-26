@@ -267,10 +267,10 @@ Loading intf-to-port mapping:...
 
 ## Compatibility
 
-Version 3.3.0 has been developed and tested against EOS-4.15.7F and EOS-4.17.3F. This version
-should also work on EOS versions > EOS-4.15.7F, but is not tested.
-Please contact eosplus@arista.com if you would like an officially supported
-release of this software.
+Version 3.3.2 has been developed and tested against EOS-4.15.7F, EOS-4.17.3F, EOS-4.18.1F, and 4.20.5.2F. This version
+should also work on EOS versions > EOS-4.20.x, but is not tested.
+Please contact eosplus-dev@arista.com if you would like an officially supported
+release of this software and determine how best to provide this to your customer so that it will be a TAC supported product.
 
 ## Limitations
 The **BurstMonitor data collector** works by polling the hardware counters as
