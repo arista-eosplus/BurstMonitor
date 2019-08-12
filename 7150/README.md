@@ -13,7 +13,7 @@ The BurstMonitor application is only supported on EOS versions:
 If you run a release prior to these, you will be exposed to a bug which can
 cause the forwarding agent on the switch to restart.
 
-__**Please contact eosplus-dev@arista.com if you would like an officially supported release of this software and determine how best to provide this to your customer so that it will be a TAC supported product.**__
+__**Please contact eosplus-dev@arista.com regarding any issues and include BurstMonitor and EOS version description..**__
 
 ## Introduction
 
@@ -271,8 +271,7 @@ Loading intf-to-port mapping:...
 
 Version 3.3.2 has been developed and tested against EOS-4.15.7F, EOS-4.17.3F, EOS-4.18.1F, and 4.20.5.2F. This version
 should also work on EOS versions > EOS-4.20.x, but is not tested.
-Please contact eosplus-dev@arista.com if you would like an officially supported
-release of this software and determine how best to provide this to your customer so that it will be a TAC supported product.
+Please contact eosplus-dev@arista.com regarding any issues and include BurstMonitor and EOS version description.
 
 ## Limitations
 The **BurstMonitor data collector** works by polling the hardware counters as
