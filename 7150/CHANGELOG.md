@@ -1,3 +1,6 @@
+# 3.3.3 (May 11 2021)
+* Fix issue where the timestamp on the record was inaccurate.
+
 # 3.3.2 (Jun 04 2018)
 * Resolves issue where burstmonitor crashes if FocalPointV2 agent state not init in sysdb.
 * Fixes access failure to sysdb entity in 4.20.x releases
