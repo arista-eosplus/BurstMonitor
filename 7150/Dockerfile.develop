@@ -1,0 +1,43 @@
+FROM centos:7
+MAINTAINER Professional Services: Software Services <eos-cs-sw@arista.com>
+
+ENV PS1='[\u@burstmonitor \t \W]# '
+
+RUN yum -y update && yum clean all
+RUN yum -y install epel-release
+# Install packaging dependencies
+RUN yum -y install \
+  which \
+  git \
+  wget \
+  make \
+  rpm-build
+
+# Create the /project directory and add it as a mountpoint
+WORKDIR /burstmonitor
+VOLUME ["/burstmonitor"]
+
+# Create the user/group that will be used in the container
+# Set some defaults that can be overridden in the build command
+ARG UNAME=docker
+ARG UPASS=docker
+# Set our defaults to UNDEF. If UID/GID are not set, the running without
+# specifying --build-arg for UID/GID can cause groupadd to error with
+# invalid group ID '-o'.
+ARG UID=UNDEF
+ARG GID=UNDEF
+# Create the sudo and UNAME groups and add the sudo group to sudoers
+RUN echo "%sudo   ALL=(ALL:ALL) ALL" >> /etc/sudoers
+RUN groupadd -r -g 1002 -o sudo
+RUN groupadd -r -g $GID -o $UNAME
+# Create the user, add to the sudo group, and set the password to UPASS
+RUN useradd -r -m -u $UID -g $GID -G sudo -o -s /bin/bash -p $(perl -e 'print crypt($ENV{"UPASS"}, "salt")') $UNAME
+# Switch to the new user for when the container is run
+USER $UNAME
+
+# Clean up
+RUN yum clean all
+
+CMD ["/bin/sh"]
+# docker build -t burstmon-dev ./Dockerfile.develop --build-arg UID=$(id -u) --build-arg GID=$(id -g)
+# docker run -it --rm --volume "$(pwd):/burstmonitor" --user $(id -u):$(id -g) burstmon-dev
